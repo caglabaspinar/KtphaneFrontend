@@ -9,21 +9,45 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/txtLibBookTitle"
-            android:layout_width="match_parent"
+        <!-- Sol: Kitap bilgileri -->
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:textSize="17sp"
-            android:textStyle="bold" />
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/txtLibBookAuthor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="14sp" />
+            <TextView
+                android:id="@+id/txtLibBookTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Kitap Adı"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtLibBookAuthor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Yazar"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Sağ: Sil butonu (SADECE ADMIN GÖRECEK) -->
+        <ImageButton
+            android:id="@+id/btnDeleteBook"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="Kitabı Sil"
+            android:background="@android:color/transparent"
+            android:src="@android:drawable/ic_menu_delete"
+            app:tint="@android:color/holo_red_dark"
+
+            android:visibility="gone" />
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>

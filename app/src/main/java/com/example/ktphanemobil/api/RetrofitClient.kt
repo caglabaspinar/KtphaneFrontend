@@ -1,41 +1,30 @@
 package com.example.ktphanemobil.api
 
+import android.content.Context
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.security.SecureRandom
-import java.security.cert.X509Certificate
-import javax.net.ssl.SSLContext
-import javax.net.ssl.TrustManager
-import javax.net.ssl.X509TrustManager
 
 object RetrofitClient {
 
     private const val BASE_URL = "http://10.0.2.2:5217/"
 
-    val instance: ApiService by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(createUnsafeClient())
-            .build()
-            .create(ApiService::class.java)
+    private lateinit var appContext: Context
+
+    fun init(context: Context) {
+        appContext = context.applicationContext
     }
 
-    private fun createUnsafeClient(): OkHttpClient {
-        val trustManager = object : X509TrustManager {
-            override fun checkClientTrusted(chain: Array<out X509Certificate>?, authType: String?) {}
-            override fun checkServerTrusted(chain: Array<out X509Certificate>?, authType: String?) {}
-            override fun getAcceptedIssuers(): Array<X509Certificate> = emptyArray()
-        }
-
-        val sslContext = SSLContext.getInstance("SSL").apply {
-            init(null, arrayOf<TrustManager>(trustManager), SecureRandom())
-        }
-
-        return OkHttpClient.Builder()
-            .sslSocketFactory(sslContext.socketFactory, trustManager)
-            .hostnameVerifier { _, _ -> true }
+    val instance: ApiService by lazy {
+        val client = OkHttpClient.Builder()
+            .addInterceptor(AuthInterceptor(appContext))
             .build()
+
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ApiService::class.java)
     }
 }

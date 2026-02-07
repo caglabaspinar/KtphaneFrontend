@@ -34,11 +34,44 @@
         android:textColor="@android:color/darker_gray"
         android:textSize="16sp" />
 
+
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="32dp"
         android:background="#DDDDDD" />
+
+    <Button
+        android:id="@+id/btnAddLibrary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="KÜTÜPHANE EKLE"
+        android:backgroundTint="@color/blue_primary"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="8dp"/>
+
+
+    <Button
+        android:id="@+id/btnAddBook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="KİTAP EKLE"
+        android:backgroundTint="@color/green_primary"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="8dp"/>
+
+
+
+
+
+    <Button
+        android:id="@+id/btnHistory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Kitap Geçmişim"
+        android:layout_marginTop="12dp"/>
+
 
     <Button
         android:id="@+id/btnLogout"
@@ -48,5 +81,10 @@
         android:backgroundTint="#F44336"
         android:text="Çıkış Yap"
         android:textColor="@android:color/white" />
+
+
+
+
+
 
 </LinearLayout>

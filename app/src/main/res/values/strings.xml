@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">KütüphaneMobil</string>
+    <string name="register_title">Kayıt Ol</string>
+    <string name="hint_fullname">Ad Soyad</string>
+    <string name="hint_email">E-posta</string>
+    <string name="hint_password">Şifre</string>
+    <string name="btn_register">KAYIT OL</string>
+    <string name="go_login">Zaten hesabın var mı? Giriş yap</string>
+    <string name="delete_book">Kitabı Sil</string>
+
 </resources>

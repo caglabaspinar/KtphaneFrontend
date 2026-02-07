@@ -42,6 +42,8 @@ class LibraryFragment : Fragment() {
                     call: Call<List<Library>>,
                     response: Response<List<Library>>
                 ) {
+                    if (!isAdded || _binding == null) return
+
                     if (!response.isSuccessful) {
                         Toast.makeText(
                             requireContext(),
@@ -51,11 +53,12 @@ class LibraryFragment : Fragment() {
                         return
                     }
 
-                    val libraries = response.body().orEmpty()
-                    setupAdapter(libraries)
+                    setupAdapter(response.body().orEmpty())
                 }
 
                 override fun onFailure(call: Call<List<Library>>, t: Throwable) {
+                    if (!isAdded || _binding == null) return
+
                     Toast.makeText(
                         requireContext(),
                         "Bağlantı hatası: ${t.message}",
@@ -66,7 +69,9 @@ class LibraryFragment : Fragment() {
     }
 
     private fun setupAdapter(libraries: List<Library>) {
-        binding.rvLibraries.adapter = LibraryAdapter(libraries) { selectedLib ->
+        val b = _binding ?: return
+
+        b.rvLibraries.adapter = LibraryAdapter(libraries) { selectedLib ->
             val fragment = LibraryBookListFragment().apply {
                 arguments = Bundle().apply {
                     putInt("library_id", selectedLib.id)

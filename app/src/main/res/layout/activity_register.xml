@@ -2,16 +2,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/registerRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp">
+    android:padding="24dp">
 
     <TextView
-        android:id="@+id/txtRegisterTitle"
+        android:id="@+id/txtTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Kayıt Ol"
-        android:textSize="26sp"
+        android:text="@string/register_title"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,63 +22,95 @@
         android:id="@+id/edtFullName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Ad Soyad"
+        android:hint="@string/hint_fullname"
         android:inputType="textPersonName"
-        app:layout_constraintTop_toBottomOf="@id/txtRegisterTitle"
+        android:autofillHints="name"
+        android:layout_marginTop="16dp"
+        android:minHeight="48dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        app:layout_constraintTop_toBottomOf="@id/txtTitle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <EditText
         android:id="@+id/edtEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="E-posta"
+        android:hint="@string/hint_email"
         android:inputType="textEmailAddress"
+        android:autofillHints="emailAddress"
+        android:layout_marginTop="12dp"
+        android:minHeight="48dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
         app:layout_constraintTop_toBottomOf="@id/edtFullName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="12dp"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <EditText
         android:id="@+id/edtPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Şifre"
+        android:hint="@string/hint_password"
         android:inputType="textPassword"
+        android:autofillHints="password"
+        android:layout_marginTop="12dp"
+        android:minHeight="48dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
         app:layout_constraintTop_toBottomOf="@id/edtEmail"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="12dp"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <Button
         android:id="@+id/btnRegister"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Kayıt Ol"
+        android:text="@string/btn_register"
+        android:layout_marginTop="16dp"
+        android:minHeight="48dp"
         app:layout_constraintTop_toBottomOf="@id/edtPassword"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="18dp"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- HATA MESAJI (Toast yerine burada göstereceğiz) -->
+    <TextView
+        android:id="@+id/txtError"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginTop="12dp"
+        android:padding="12dp"
+        android:textSize="14sp"
+        android:lineSpacingExtra="4dp"
+        android:textColor="@android:color/holo_red_dark"
+        android:background="#10FF0000"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        app:layout_constraintTop_toBottomOf="@id/btnRegister"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
         android:id="@+id/txtGoLogin"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Zaten hesabın var mı? Giriş yap"
-        android:textSize="13sp"
-        android:textColor="#3F51B5"
-        app:layout_constraintTop_toBottomOf="@id/btnRegister"
+        android:text="@string/go_login"
+        android:layout_marginTop="12dp"
+        android:textColor="#0D47A1"
+        app:layout_constraintTop_toBottomOf="@id/txtError"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="14dp"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <ProgressBar
         android:id="@+id/progressRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@id/txtGoLogin"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="10dp"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,7 +23,7 @@ class BookInfoFragment : Fragment() {
 
         val book = arguments?.getSerializable("selected_book") as? Book
         if (book == null) {
-            Toast.makeText(context, "Kitap bilgisi bulunamadı.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Kitap bilgisi bulunamadı.", Toast.LENGTH_SHORT).show()
             parentFragmentManager.popBackStack()
             return binding.root
         }

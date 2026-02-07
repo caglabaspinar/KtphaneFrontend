@@ -17,9 +17,6 @@
         android:textColor="#333333"
         android:layout_marginBottom="30dp"/>
 
-
-
-
     <EditText
         android:id="@+id/etEmail"
         android:layout_width="match_parent"
@@ -38,7 +35,7 @@
         android:inputType="textPassword"
         android:background="@android:drawable/editbox_background"
         android:paddingLeft="10dp"
-        android:layout_marginBottom="25dp"/>
+        android:layout_marginBottom="18dp"/>
 
     <Button
         android:id="@+id/btnLogin"
@@ -47,6 +44,21 @@
         android:text="Giriş Yap"
         android:backgroundTint="#2E7D32"
         android:textColor="#FFFFFF" />
+
+
+    <TextView
+        android:id="@+id/txtError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginTop="12dp"
+        android:padding="12dp"
+        android:textSize="14sp"
+        android:lineSpacingExtra="4dp"
+        android:textColor="@android:color/holo_red_dark"
+        android:background="#10FF0000"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
 
     <TextView
         android:id="@+id/txtGoRegister"

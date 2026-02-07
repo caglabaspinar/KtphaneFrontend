@@ -39,8 +39,5 @@ class LibraryAdapter(
 
     override fun getItemCount(): Int = libraries.size
 
-    fun updateList(newList: List<Library>) {
-        libraries = newList
-        notifyDataSetChanged()
-    }
+
 }

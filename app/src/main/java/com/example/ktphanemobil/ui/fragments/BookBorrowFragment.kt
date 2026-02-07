@@ -30,7 +30,7 @@ class BookBorrowFragment : Fragment() {
 
         val book = arguments?.getSerializable("selected_book") as? Book
         if (book == null) {
-            Toast.makeText(context, "Kitap bilgisi bulunamadı.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Kitap bilgisi bulunamadı.", Toast.LENGTH_SHORT).show()
             return binding.root
         }
 
@@ -40,19 +40,15 @@ class BookBorrowFragment : Fragment() {
         binding.txtBorrowLibrary.text = "Kütüphane: ${book.libraryName ?: "Belirtilmemiş"}"
 
         binding.btnBorrowAction.setOnClickListener {
-            val prefs = requireActivity()
-                .getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
-
+            val prefs = requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
             val studentId = prefs.getInt("user_id", -1)
+
             if (studentId == -1) {
-                Toast.makeText(context, "Önce giriş yapmalısın.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Önce giriş yapmalısın.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            val request = BorrowRequest(
-                studentId = studentId,
-                bookId = book.id
-            )
+            val request = BorrowRequest(bookId = book.id)
 
             RetrofitClient.instance.borrowBook(request)
                 .enqueue(object : Callback<BorrowResponse> {
@@ -61,9 +57,11 @@ class BookBorrowFragment : Fragment() {
                         call: Call<BorrowResponse>,
                         response: Response<BorrowResponse>
                     ) {
+                        if (!isAdded || _binding == null) return
+
                         if (response.code() == 409) {
                             Toast.makeText(
-                                context,
+                                requireContext(),
                                 "Bu kitap daha önce ödünç alındı.",
                                 Toast.LENGTH_SHORT
                             ).show()
@@ -71,14 +69,12 @@ class BookBorrowFragment : Fragment() {
                         }
 
                         if (response.isSuccessful) {
-                            val message =
-                                response.body()?.message
-                                    ?: "Kitap başarıyla ödünç alındı!"
-                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                            val message = response.body()?.message ?: "Kitap başarıyla ödünç alındı!"
+                            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                             parentFragmentManager.popBackStack()
                         } else {
                             Toast.makeText(
-                                context,
+                                requireContext(),
                                 "Ödünç alma başarısız: ${response.code()}",
                                 Toast.LENGTH_SHORT
                             ).show()
@@ -86,8 +82,10 @@ class BookBorrowFragment : Fragment() {
                     }
 
                     override fun onFailure(call: Call<BorrowResponse>, t: Throwable) {
+                        if (!isAdded || _binding == null) return
+
                         Toast.makeText(
-                            context,
+                            requireContext(),
                             "Bağlantı hatası: ${t.message}",
                             Toast.LENGTH_SHORT
                         ).show()

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Kitap Adı"
+        android:textStyle="bold"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/txtAuthor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Yazar"
+        android:layout_marginTop="4dp" />
+
+    <TextView
+        android:id="@+id/txtBorrowDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Alınma: 2026-02-02"
+        android:layout_marginTop="6dp" />
+
+    <Button
+        android:id="@+id/btnReturn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Teslim Et"
+        android:layout_marginTop="10dp" />
+
+</LinearLayout>

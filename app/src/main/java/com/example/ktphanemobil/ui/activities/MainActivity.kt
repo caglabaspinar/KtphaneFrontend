@@ -3,6 +3,7 @@ package com.example.ktphanemobil.ui.activities
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.example.ktphanemobil.R
 import com.example.ktphanemobil.databinding.ActivityMainBinding
 import com.example.ktphanemobil.ui.fragments.GeneralBookListFragment
@@ -19,10 +20,26 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // İlk açılışta default fragment
-        if (savedInstanceState == null) {
-            replaceFragment(LibraryFragment())
+
+        setSupportActionBar(binding.toolbar)
+
+
+        binding.toolbar.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
         }
+
+
+        supportFragmentManager.addOnBackStackChangedListener {
+            updateBackButton()
+        }
+        updateBackButton()
+
+
+        if (savedInstanceState == null) {
+            replaceRootFragment(LibraryFragment())
+            binding.bottomNavigation.selectedItemId = R.id.nav_libraries
+        }
+
 
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             val selectedFragment: Fragment = when (item.itemId) {
@@ -33,12 +50,25 @@ class MainActivity : AppCompatActivity() {
                 else -> LibraryFragment()
             }
 
-            replaceFragment(selectedFragment)
+
+            supportFragmentManager.popBackStack(
+                null,
+                FragmentManager.POP_BACK_STACK_INCLUSIVE
+            )
+
+
+            replaceRootFragment(selectedFragment)
             true
         }
     }
 
-    private fun replaceFragment(fragment: Fragment) {
+    private fun updateBackButton() {
+        val canGoBack = supportFragmentManager.backStackEntryCount > 0
+        supportActionBar?.setDisplayHomeAsUpEnabled(canGoBack)
+        supportActionBar?.setDisplayShowHomeEnabled(canGoBack)
+    }
+
+    private fun replaceRootFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .commit()

@@ -32,18 +32,19 @@ class LibraryBookListFragment : Fragment() {
 
         val libraryId = arguments?.getInt("library_id", -1) ?: -1
         if (libraryId == -1) {
-            Toast.makeText(requireContext(), "Kütüphane bilgisi bulunamadı.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                "Kütüphane bilgisi bulunamadı.",
+                Toast.LENGTH_SHORT
+            ).show()
             parentFragmentManager.popBackStack()
             return binding.root
         }
-
 
         loadBooksByLibrary(libraryId)
 
         return binding.root
     }
-
-
 
     private fun loadBooksByLibrary(libraryId: Int) {
         RetrofitClient.instance.getLibraryBooks(libraryId)
@@ -53,6 +54,8 @@ class LibraryBookListFragment : Fragment() {
                     call: Call<List<Book>>,
                     response: Response<List<Book>>
                 ) {
+                    if (!isAdded || _binding == null) return
+
                     if (!response.isSuccessful) {
                         Toast.makeText(
                             requireContext(),
@@ -63,8 +66,12 @@ class LibraryBookListFragment : Fragment() {
                     }
 
                     val books = response.body().orEmpty()
-                    if (books.isNullOrEmpty()) {
-                        Toast.makeText(requireContext(), "Bu kütüphanede kitap yok.", Toast.LENGTH_SHORT).show()
+                    if (books.isEmpty()) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Bu kütüphanede kitap yok.",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         return
                     }
 
@@ -72,29 +79,41 @@ class LibraryBookListFragment : Fragment() {
                 }
 
                 override fun onFailure(call: Call<List<Book>>, t: Throwable) {
+                    if (!isAdded || _binding == null) return
+
                     Toast.makeText(
                         requireContext(),
                         "İnternet yok veya sunucuya ulaşılamadı.",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-
             })
     }
 
     private fun setupAdapter(books: List<Book>) {
-        binding.rvLibraryBooks.adapter = LibraryBookAdapter(books) { selectedBook ->
-            val fragment = BookBorrowFragment().apply {
-                arguments = Bundle().apply {
-                    putSerializable("selected_book", selectedBook)
-                }
-            }
+        val b = _binding ?: return
 
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .addToBackStack(null)
-                .commit()
-        }
+        val prefs = requireContext().getSharedPreferences("UserPrefs", 0)
+        val role = prefs.getString("role", "Student")
+        val isAdmin = role == "Admin"
+
+        b.rvLibraryBooks.adapter = LibraryBookAdapter(
+            books = books.toMutableList(),
+            isAdmin = isAdmin,
+            onBookClick = { selectedBook ->
+                val fragment = BookBorrowFragment().apply {
+                    arguments = Bundle().apply {
+                        putSerializable("selected_book", selectedBook)
+                    }
+                }
+
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .addToBackStack(null)
+                    .commit()
+            },
+            onDeleteClick = { }
+        )
     }
 
     override fun onDestroyView() {

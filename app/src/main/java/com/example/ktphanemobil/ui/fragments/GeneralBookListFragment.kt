@@ -19,7 +19,6 @@ import retrofit2.Response
 class GeneralBookListFragment : Fragment() {
 
     private var _binding: FragmentGeneralBookListBinding? = null
-    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,12 +27,12 @@ class GeneralBookListFragment : Fragment() {
     ): View {
         _binding = FragmentGeneralBookListBinding.inflate(inflater, container, false)
 
-        binding.rvGeneralBooks.layoutManager =
-            LinearLayoutManager(requireContext())
+        val b = _binding!!
+        b.rvGeneralBooks.layoutManager = LinearLayoutManager(requireContext())
 
         loadAllBooks()
 
-        return binding.root
+        return b.root
     }
 
     private fun loadAllBooks() {
@@ -44,36 +43,57 @@ class GeneralBookListFragment : Fragment() {
                     call: Call<List<Book>>,
                     response: Response<List<Book>>
                 ) {
-                    if (!response.isSuccessful) return
+                    if (!isAdded) return
+                    val b = _binding ?: return
+
+                    if (!response.isSuccessful) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Kitaplar alınamadı: ${response.code()}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return
+                    }
 
                     val books = response.body().orEmpty()
-                    setupAdapter(books)
+                    if (books.isEmpty()) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Kitap bulunamadı.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return
+                    }
+
+                    setupAdapter(b, books)
                 }
 
                 override fun onFailure(call: Call<List<Book>>, t: Throwable) {
+                    if (!isAdded) return
+                    if (_binding == null) return
+
                     Toast.makeText(
                         requireContext(),
-                        "Hata: ${t.message}",
+                        "Bağlantı hatası: ${t.message}",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
             })
     }
 
-    private fun setupAdapter(books: List<Book>) {
-        binding.rvGeneralBooks.adapter =
-            GeneralBookAdapter(books) { selectedBook ->
-                val fragment = BookInfoFragment().apply {
-                    arguments = Bundle().apply {
-                        putSerializable("selected_book", selectedBook)
-                    }
+    private fun setupAdapter(b: FragmentGeneralBookListBinding, books: List<Book>) {
+        b.rvGeneralBooks.adapter = GeneralBookAdapter(books) { selectedBook ->
+            val fragment = BookInfoFragment().apply {
+                arguments = Bundle().apply {
+                    putSerializable("selected_book", selectedBook)
                 }
-
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .addToBackStack(null)
-                    .commit()
             }
+
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     override fun onDestroyView() {
