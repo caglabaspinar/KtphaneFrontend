@@ -36,3 +36,6 @@ class MyBorrowAdapter(
 
     override fun getItemCount(): Int = items.size
 }
+// Öğrencinin aktif ödünç aldığı kitapları RecyclerView üzerinde listeleyen adapter sınıfıdır.
+// BorrowedBookResponse verilerini ekrana bağlar ve kitap detayına gitme ile iade işlemini
+// callback fonksiyonları üzerinden ilgili ekrana iletir.

@@ -38,3 +38,6 @@ class BorrowHistoryAdapter(
 
     override fun getItemCount(): Int = items.size
 }
+// Öğrencinin ödünç geçmişini RecyclerView üzerinde listelemek için kullanılan adapter sınıfıdır.
+// BorrowedBookResponse verilerini alır, her bir item’ı ItemBorrowHistoryBinding ile ekrana bağlar
+// ve alınma ile teslim tarihlerini uygun formatta kullanıcıya gösterir.

@@ -90,3 +90,5 @@ class LibraryFragment : Fragment() {
         _binding = null
     }
 }
+// Tüm kütüphaneleri backend’den çekip listeleyen ana ekrandır; seçilen kütüphaneyi
+// LibraryBookListFragment’e göndererek o kütüphaneye ait kitapların görüntülenmesini sağlar.

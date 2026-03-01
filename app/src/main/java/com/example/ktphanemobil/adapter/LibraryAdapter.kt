@@ -41,3 +41,5 @@ class LibraryAdapter(
 
 
 }
+// Kütüphane listesini RecyclerView üzerinde göstermek için kullanılan adapter sınıfıdır.
+// Library modelini ekrana bağlar ve seçilen kütüphaneyi tıklama callback’i ile ilgili ekrana iletir.

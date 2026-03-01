@@ -28,6 +28,14 @@
         android:textSize="16sp" />
 
     <TextView
+        android:id="@+id/txtBorrowPageCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="16sp"
+        android:text="Sayfa Sayısı: " />
+
+    <TextView
         android:id="@+id/txtBorrowLibrary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

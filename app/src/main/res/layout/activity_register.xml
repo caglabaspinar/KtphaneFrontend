@@ -74,7 +74,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- HATA MESAJI (Toast yerine burada göstereceğiz) -->
+
     <TextView
         android:id="@+id/txtError"
         android:layout_width="0dp"

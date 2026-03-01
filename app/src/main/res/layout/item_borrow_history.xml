@@ -35,3 +35,5 @@
         android:text="Teslim:" />
 
 </LinearLayout>
+    <!-- Ödünç geçmişi listesindeki tek bir kitap item’ının görünümünü tanımlar;
+         kitap adı, yazar, alınma tarihi ve teslim tarihini göstermek için kullanılır. -->

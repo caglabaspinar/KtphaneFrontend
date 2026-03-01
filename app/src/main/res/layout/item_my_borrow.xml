@@ -11,21 +11,24 @@
         android:layout_height="wrap_content"
         android:text="Kitap Adı"
         android:textStyle="bold"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:textColor="@color/pure_black" />
 
     <TextView
         android:id="@+id/txtAuthor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Yazar"
-        android:layout_marginTop="4dp" />
+        android:layout_marginTop="4dp"
+        android:textColor="@color/pure_black" />
 
     <TextView
         android:id="@+id/txtBorrowDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Alınma: 2026-02-02"
-        android:layout_marginTop="6dp" />
+        android:layout_marginTop="6dp"
+        android:textColor="@color/pure_black" />
 
     <Button
         android:id="@+id/btnReturn"

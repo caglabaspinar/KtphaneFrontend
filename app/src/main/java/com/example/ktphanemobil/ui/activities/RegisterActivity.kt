@@ -65,7 +65,7 @@ class RegisterActivity : AppCompatActivity() {
                     setLoading(false)
 
                     if (response.isSuccessful) {
-                        // Başarı mesajını da txtError'da göstermek istersen aynı mekanizma ile yapılır.
+
                         finish()
                     } else {
                         val raw = try {
@@ -96,7 +96,7 @@ class RegisterActivity : AppCompatActivity() {
         binding.btnRegister.isEnabled = !isLoading
     }
 
-    // ✅ TextView hata yönetimi
+
     private fun hideError() {
         binding.txtError.visibility = View.GONE
         binding.txtError.text = ""
@@ -117,28 +117,24 @@ class RegisterActivity : AppCompatActivity() {
     }
 
 
-    // ✅ Backend'den gelen hata body'sini parse eder:
-    // 1) ["msg1","msg2"]
-    // 2) {"errors":[...]} veya {"message":"..."} veya {"title":"..."}
-    // 3) {"errors":{ "Email":["..."], "Password":["..."] }} (ASP.NET/FluentValidation tarzı)
-    // 4) JSON değilse düz metin
+
     private fun parseBackendErrors(raw: String?): List<String> {
         if (raw.isNullOrBlank()) return emptyList()
 
         val s = raw.trim()
 
-        // 1) JSON Array: ["msg1","msg2"]
+
         try {
             val arr = org.json.JSONArray(s)
             return List(arr.length()) { i -> arr.optString(i).trim() }
                 .filter { it.isNotBlank() }
         } catch (_: Exception) { /* devam */ }
 
-        // 2) JSON Object: {"errors":[...]} veya {"message":"..."} vb.
+
         try {
             val obj = org.json.JSONObject(s)
 
-            // {"errors":[...]}
+
             if (obj.has("errors")) {
                 val e = obj.get("errors")
                 if (e is org.json.JSONArray) {
@@ -147,19 +143,19 @@ class RegisterActivity : AppCompatActivity() {
                 }
             }
 
-            // {"message":"..."}
+
             if (obj.has("message")) {
                 val msg = obj.optString("message").trim()
                 if (msg.isNotBlank()) return listOf(msg)
             }
 
-            // {"title":"..."} ASP.NET problem details'te bazen var
+
             if (obj.has("title")) {
                 val title = obj.optString("title").trim()
                 if (title.isNotBlank()) return listOf(title)
             }
 
-            // {"errors":{ "Email":["..."], "Password":["..."] }} gibi olursa:
+
             if (obj.has("errors") && obj.get("errors") is org.json.JSONObject) {
                 val errsObj = obj.getJSONObject("errors")
                 val list = mutableListOf<String>()
@@ -179,7 +175,9 @@ class RegisterActivity : AppCompatActivity() {
 
         } catch (_: Exception) { /* devam */ }
 
-        // 3) Düz metin: tırnakları temizle
+
         return listOf(s.trim('"'))
     }
 }
+// Kullanıcının kayıt olduğu ekrandır; ad-soyad, e-posta ve şifre bilgileriyle backend’e register isteği gönderir,
+// başarılı olursa login ekranına döner, başarısız olursa backend’den gelen hata mesajlarını parse edip UI’da gösterir.

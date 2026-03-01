@@ -2,6 +2,8 @@ package com.example.ktphanemobil.ui.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.ktphanemobil.R
@@ -21,25 +23,40 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        setSupportActionBar(binding.toolbar)
+        val toolbar = binding.toolbar
+        val initialTop = toolbar.paddingTop
+        val initialLeft = toolbar.paddingLeft
+        val initialRight = toolbar.paddingRight
+        val initialBottom = toolbar.paddingBottom
+
+        ViewCompat.setOnApplyWindowInsetsListener(toolbar) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(
+                initialLeft,
+                initialTop + systemBars.top,
+                initialRight,
+                initialBottom
+            )
+            insets
+        }
+        ViewCompat.requestApplyInsets(toolbar)
+
+        setSupportActionBar(toolbar)
 
 
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
 
-
         supportFragmentManager.addOnBackStackChangedListener {
             updateBackButton()
         }
         updateBackButton()
 
-
         if (savedInstanceState == null) {
             replaceRootFragment(LibraryFragment())
             binding.bottomNavigation.selectedItemId = R.id.nav_libraries
         }
-
 
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             val selectedFragment: Fragment = when (item.itemId) {
@@ -50,12 +67,10 @@ class MainActivity : AppCompatActivity() {
                 else -> LibraryFragment()
             }
 
-
             supportFragmentManager.popBackStack(
                 null,
                 FragmentManager.POP_BACK_STACK_INCLUSIVE
             )
-
 
             replaceRootFragment(selectedFragment)
             true
@@ -74,3 +89,5 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 }
+// Uygulamanın ana ekranını yöneten Activity’dir; BottomNavigation ile fragment geçişlerini kontrol eder,
+// toolbar ve geri tuşu davranışını back stack’e göre yönetir ve seçilen fragment’i ekrana yerleştirir.

@@ -18,6 +18,9 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
 
+
+    private var isPasswordVisible = false
+
     companion object {
         private const val PREFS_NAME = "UserPrefs"
         private const val MSG_FILL_ALL = "Lütfen tüm alanları doldurun."
@@ -35,12 +38,43 @@ class LoginActivity : AppCompatActivity() {
 
         hideError()
 
+
+        setupPasswordToggle()
+
         binding.txtGoRegister.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
 
+        binding.txtForgotPassword.setOnClickListener {
+            startActivity(Intent(this, ForgotPasswordActivity::class.java))
+        }
         binding.btnLogin.setOnClickListener {
             handleLogin()
+        }
+    }
+
+    private fun setupPasswordToggle() {
+        binding.btnTogglePassword.setOnClickListener {
+            isPasswordVisible = !isPasswordVisible
+
+
+            val selection = binding.etPassword.selectionEnd
+
+            if (isPasswordVisible) {
+                binding.etPassword.inputType =
+                    android.text.InputType.TYPE_CLASS_TEXT or
+                            android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+
+                binding.btnTogglePassword.setImageResource(android.R.drawable.ic_menu_view)
+            } else {
+                binding.etPassword.inputType =
+                    android.text.InputType.TYPE_CLASS_TEXT or
+                            android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+                binding.btnTogglePassword.setImageResource(android.R.drawable.ic_menu_view)
+            }
+
+
+            binding.etPassword.setSelection(selection.coerceAtLeast(0))
         }
     }
 
@@ -89,7 +123,6 @@ class LoginActivity : AppCompatActivity() {
                             showErrorLines(listOf("Beklenmeyen hata: boş response."))
                         }
                     } else {
-
                         showErrorLines(listOf(MSG_INVALID))
                     }
                 }
@@ -108,7 +141,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setLoading(isLoading: Boolean) {
-
         binding.btnLogin.isEnabled = !isLoading
     }
 
@@ -119,15 +151,12 @@ class LoginActivity : AppCompatActivity() {
             putString("user_name", name)
             putString("user_email", email)
 
-            // ✅ auth
             putString("auth_token", token)
             putString("role", role)
 
             apply()
         }
     }
-
-
 
     private fun hideError() {
         binding.txtError.visibility = View.GONE
@@ -148,3 +177,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 }
+// Kullanıcının e-posta ve şifre ile giriş yaptığı ekrandır; backend’e login isteği atar,
+// başarılı olursa JWT token ve kullanıcı bilgilerini SharedPreferences’a kaydedip ana ekrana yönlendirir,
+// ayrıca şifre göster/gizle ve hata durumlarını UI üzerinde yönetir.

@@ -1,5 +1,6 @@
 package com.example.ktphanemobil.ui.fragments
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,11 +8,11 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.ktphanemobil.R
 import com.example.ktphanemobil.api.RetrofitClient
 import com.example.ktphanemobil.databinding.FragmentAddBookBinding
 import com.example.ktphanemobil.models.AddBookRequest
 import com.example.ktphanemobil.models.Library
+import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -75,15 +76,29 @@ class AddBookFragment : Fragment() {
 
             val title = binding.etTitle.text.toString().trim()
             val author = binding.etAuthor.text.toString().trim()
-            val isbn = binding.etIsbn.text.toString().trim()
+            val rawIsbn = binding.etIsbn.text.toString().trim()
+            val normalizedIsbn = normalizeIsbn(rawIsbn)
 
-            if (title.isEmpty() || author.isEmpty() || isbn.isEmpty()) {
-                Toast.makeText(requireContext(), "Tüm alanları doldurun", Toast.LENGTH_SHORT).show()
+            val pageCountText = binding.etPageCount.text.toString().trim()
+            val pageCount = pageCountText.toIntOrNull()
+
+            if (pageCountText.isNotEmpty() && pageCount == null) {
+                showError("Sayfa sayısı sayı olmalı")
+                return@setOnClickListener
+            }
+
+            if (title.isEmpty() || author.isEmpty() || rawIsbn.isEmpty()) {
+                showError("Tüm alanları doldurun")
+                return@setOnClickListener
+            }
+
+            if (!isValidIsbn13(normalizedIsbn)) {
+                showError("ISBN 13 haneli olmalı ve 978 veya 979 ile başlamalı")
                 return@setOnClickListener
             }
 
             if (libraries.isEmpty()) {
-                Toast.makeText(requireContext(), "Kütüphane seçilmedi", Toast.LENGTH_SHORT).show()
+                showError("Kütüphane seçilmedi")
                 return@setOnClickListener
             }
 
@@ -93,8 +108,9 @@ class AddBookFragment : Fragment() {
             val request = AddBookRequest(
                 title = title,
                 author = author,
-                isbn = isbn,
-                libraryId = libraryId
+                isbn = normalizedIsbn,
+                libraryId = libraryId,
+                pageCount = pageCount
             )
 
             RetrofitClient.instance.addBook(request)
@@ -106,20 +122,47 @@ class AddBookFragment : Fragment() {
                         if (response.isSuccessful) {
                             Toast.makeText(requireContext(), "Kitap eklendi", Toast.LENGTH_SHORT).show()
                             parentFragmentManager.popBackStack()
-                        } else {
-                            Toast.makeText(
-                                requireContext(),
-                                "Eklenemedi (Kod ${response.code()})",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            return
                         }
+
+
+                        if (response.code() == 409) {
+                            showError("Bu ISBN numarası zaten kullanılıyor.")
+                            return
+                        }
+
+
+                        val backendMsg = response.errorBody()?.string()?.trim()
+                        val msg = if (!backendMsg.isNullOrBlank()) backendMsg else "Eklenemedi (Kod ${response.code()})"
+                        showError(msg)
                     }
 
                     override fun onFailure(call: Call<com.example.ktphanemobil.models.Book>, t: Throwable) {
-                        Toast.makeText(requireContext(), "Bağlantı hatası", Toast.LENGTH_SHORT).show()
+                        showError("Bağlantı hatası: ${t.message}")
                     }
                 })
         }
+    }
+
+
+    private fun showError(message: String) {
+        if (!isAdded || _binding == null) return
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
+            .setBackgroundTint(Color.parseColor("#D32F2F"))
+            .setTextColor(Color.WHITE)
+            .show()
+    }
+
+
+    private fun normalizeIsbn(input: String): String {
+        return input.filter { it.isDigit() }
+    }
+
+
+    private fun isValidIsbn13(isbn: String): Boolean {
+        if (isbn.length != 13) return false
+        if (!isbn.startsWith("978") && !isbn.startsWith("979")) return false
+        return true
     }
 
     override fun onDestroyView() {
@@ -127,3 +170,6 @@ class AddBookFragment : Fragment() {
         _binding = null
     }
 }
+// Admin’in yeni kitap eklediği ekrandır; kütüphane listesini API’den çekip spinner’a doldurur,
+// girilen kitap bilgilerini (ISBN normalize/format ve sayfa sayısı dahil) doğrular, ardından backend’e
+// kitap ekleme isteği gönderir ve hata/başarı durumlarını kullanıcıya gösterir.

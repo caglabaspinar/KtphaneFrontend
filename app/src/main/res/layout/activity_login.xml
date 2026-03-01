@@ -27,15 +27,35 @@
         android:paddingLeft="10dp"
         android:layout_marginBottom="15dp"/>
 
-    <EditText
-        android:id="@+id/etPassword"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:hint="Şifreniz"
-        android:inputType="textPassword"
-        android:background="@android:drawable/editbox_background"
-        android:paddingLeft="10dp"
-        android:layout_marginBottom="18dp"/>
+        android:layout_marginBottom="18dp"
+        android:background="@android:drawable/editbox_background">
+
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Şifreniz"
+            android:inputType="textPassword"
+            android:background="@android:color/transparent"
+            android:paddingLeft="10dp"
+            android:paddingRight="44dp" />
+
+        <ImageView
+            android:id="@+id/btnTogglePassword"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="12dp"
+            android:src="@android:drawable/ic_menu_view"
+            android:contentDescription="Şifreyi göster/gizle"
+            android:clickable="true"
+            android:focusable="true" />
+
+    </RelativeLayout>
 
     <Button
         android:id="@+id/btnLogin"
@@ -60,6 +80,18 @@
         android:focusable="true"
         android:focusableInTouchMode="true" />
 
+    <TextView
+        android:id="@+id/txtForgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Şifremi Unuttum"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="6dp"
+        android:clickable="true"
+        android:focusable="true" />
     <TextView
         android:id="@+id/txtGoRegister"
         android:layout_width="wrap_content"

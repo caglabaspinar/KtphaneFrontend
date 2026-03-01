@@ -32,3 +32,8 @@ class AuthInterceptor(private val context: Context) : Interceptor {
         return chain.proceed(newRequest)
     }
 }
+
+// OkHttp interceptor sınıfıdır; login ve register dışındaki tüm API isteklerine
+// SharedPreferences’ta saklanan JWT token’ı Authorization header olarak otomatik ekler.
+
+

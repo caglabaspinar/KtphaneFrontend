@@ -119,3 +119,6 @@ class ProfileFragment : Fragment() {
         _binding = null
     }
 }
+// Kullanıcının profil ekranıdır; SharedPreferences’tan kullanıcı bilgilerini gösterir,
+// logout işlemini yapar, ödünç geçmişine geçişi sağlar ve rol Admin ise kitap/kütüphane ekleme
+// butonlarını dinamik olarak görünür yapar.

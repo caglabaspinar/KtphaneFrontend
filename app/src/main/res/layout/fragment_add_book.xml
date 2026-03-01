@@ -25,6 +25,15 @@
         android:hint="ISBN"
         android:layout_marginTop="8dp" />
 
+    <EditText
+        android:id="@+id/etPageCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Sayfa Sayısı (isteğe bağlı)"
+        android:inputType="number"
+        android:layout_marginTop="8dp" />
+
+
     <Spinner
         android:id="@+id/spinnerLibrary"
         android:layout_width="match_parent"

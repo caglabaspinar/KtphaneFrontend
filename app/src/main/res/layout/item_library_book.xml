@@ -13,7 +13,6 @@
         android:padding="16dp"
         android:gravity="center_vertical">
 
-        <!-- Sol: Kitap bilgileri -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -37,17 +36,6 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <!-- Sağ: Sil butonu (SADECE ADMIN GÖRECEK) -->
-        <ImageButton
-            android:id="@+id/btnDeleteBook"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:contentDescription="Kitabı Sil"
-            android:background="@android:color/transparent"
-            android:src="@android:drawable/ic_menu_delete"
-            app:tint="@android:color/holo_red_dark"
-
-            android:visibility="gone" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

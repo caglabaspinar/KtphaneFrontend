@@ -7,5 +7,8 @@ data class Book(
     val title: String,
     val author: String,
     val isbn: String?,
-    val libraryName: String?
+    val pageCount: Int?,
+    val libraryId: Int?,
+    val libraryName: String?,
+    val isBorrowed: Boolean?
 ) : Serializable

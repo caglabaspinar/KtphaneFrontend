@@ -26,3 +26,6 @@
         android:layout_height="match_parent" />
 
 </LinearLayout>
+    <!-- Öğrencinin ödünç geçmişi ekranının layout dosyasıdır;
+         yüklenme durumunda ProgressBar’ı, boş durumda bilgilendirme metnini
+         ve veriler geldiğinde RecyclerView listesini gösterir. -->

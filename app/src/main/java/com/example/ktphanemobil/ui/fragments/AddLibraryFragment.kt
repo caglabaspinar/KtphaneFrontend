@@ -70,3 +70,5 @@ class AddLibraryFragment : Fragment() {
         _binding = null
     }
 }
+// Admin’in yeni kütüphane eklediği ekrandır; kütüphane adı ve konum bilgilerini alır,
+// doğruladıktan sonra backend’e ekleme isteği gönderir ve sonuç durumunu kullanıcıya gösterir.

@@ -28,8 +28,12 @@
         </activity>
 
         <activity android:name=".ui.activities.RegisterActivity" />
+        <activity android:name=".ui.activities.ForgotPasswordActivity" android:exported="false" />
         <activity android:name=".ui.activities.LoginActivity" android:exported="false" />
         <activity android:name=".ui.activities.MainActivity" android:exported="false" />
 
     </application>
 </manifest>
+    <!--Android uygulamasının bileşenlerini ve sistem seviyesindeki yapılandırmalarını tanımlayan manifest dosyasıdır.
+     Uygulamaya internet erişim izni verir, tema ve ikon ayarlarını belirler
+     ve SplashActivity’yi uygulamanın launcher (başlangıç) activity’si olarak konfigüre eder. -->

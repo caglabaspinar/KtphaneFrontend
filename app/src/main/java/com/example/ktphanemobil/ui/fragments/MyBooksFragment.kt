@@ -164,3 +164,5 @@ class MyBooksFragment : Fragment() {
         _binding = null
     }
 }
+// Öğrencinin aktif ödünç aldığı kitapları listeleyen ekrandır; backend’den my endpoint’ini çağırır,
+// listeyi RecyclerView’da gösterir ve kullanıcı iade butonuna basınca return isteği gönderip listeyi yeniler.

@@ -102,3 +102,5 @@ class BorrowHistoryFragment : Fragment() {
         _binding = null
     }
 }
+// Öğrencinin tüm ödünç geçmişini listeleyen ekrandır; backend’den my/history endpoint’ini çağırır,
+// gelen veriyi RecyclerView’da gösterir ve boş ya da hata durumlarını UI üzerinde yönetir.

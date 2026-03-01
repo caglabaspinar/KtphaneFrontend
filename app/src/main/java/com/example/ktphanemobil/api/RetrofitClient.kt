@@ -28,3 +28,5 @@ object RetrofitClient {
             .create(ApiService::class.java)
     }
 }
+// Retrofit ve OkHttp istemcisini uygulama genelinde tek bir yerden oluşturan ve yöneten sınıftır.
+// Base URL’i tanımlar, JWT için AuthInterceptor’ı ekler ve ApiService nesnesini üretir.

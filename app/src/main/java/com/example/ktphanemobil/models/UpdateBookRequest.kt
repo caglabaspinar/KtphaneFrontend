@@ -1,9 +1,9 @@
 package com.example.ktphanemobil.models
 
-data class AddBookRequest(
+data class UpdateBookRequest(
     val title: String,
     val author: String,
-    val isbn: String,
+    val isbn: String?,
     val pageCount: Int?,
-    val libraryId: Int
+    val libraryId: Int?
 )

@@ -91,15 +91,8 @@ class LibraryBookListFragment : Fragment() {
     }
 
     private fun setupAdapter(books: List<Book>) {
-        val b = _binding ?: return
-
-        val prefs = requireContext().getSharedPreferences("UserPrefs", 0)
-        val role = prefs.getString("role", "Student")
-        val isAdmin = role == "Admin"
-
-        b.rvLibraryBooks.adapter = LibraryBookAdapter(
+        binding.rvLibraryBooks.adapter = LibraryBookAdapter(
             books = books.toMutableList(),
-            isAdmin = isAdmin,
             onBookClick = { selectedBook ->
                 val fragment = BookBorrowFragment().apply {
                     arguments = Bundle().apply {
@@ -111,8 +104,7 @@ class LibraryBookListFragment : Fragment() {
                     .replace(R.id.fragment_container, fragment)
                     .addToBackStack(null)
                     .commit()
-            },
-            onDeleteClick = { }
+            }
         )
     }
 
@@ -121,3 +113,5 @@ class LibraryBookListFragment : Fragment() {
         _binding = null
     }
 }
+// Seçilen kütüphaneye ait kitapları listeleyen ekrandır; libraryId ile backend’den ilgili kitapları çeker,
+// listeyi RecyclerView’da gösterir ve seçilen kitabı ödünç alma ekranına (BookBorrowFragment) taşır.

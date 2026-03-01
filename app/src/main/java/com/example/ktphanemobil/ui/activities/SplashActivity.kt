@@ -27,3 +27,5 @@ class SplashActivity : AppCompatActivity() {
         finish()
     }
 }
+// Uygulama açıldığında gösterilen başlangıç ekranıdır; belirli bir süre (3 saniye) bekledikten sonra
+// kullanıcıyı LoginActivity’ye yönlendirir ve splash ekranını kapatır.

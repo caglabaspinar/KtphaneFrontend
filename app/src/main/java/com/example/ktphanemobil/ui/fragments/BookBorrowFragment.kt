@@ -37,6 +37,7 @@ class BookBorrowFragment : Fragment() {
         binding.txtBorrowTitle.text = book.title
         binding.txtBorrowAuthor.text = "Yazar: ${book.author}"
         binding.txtBorrowIsbn.text = "ISBN: ${book.isbn ?: "Belirtilmemiş"}"
+        binding.txtBorrowPageCount.text = "Sayfa Sayısı: ${book.pageCount?.toString() ?: "Bilinmiyor"}"
         binding.txtBorrowLibrary.text = "Kütüphane: ${book.libraryName ?: "Belirtilmemiş"}"
 
         binding.btnBorrowAction.setOnClickListener {
@@ -101,3 +102,6 @@ class BookBorrowFragment : Fragment() {
         _binding = null
     }
 }
+// Seçilen kitabın detaylarını gösteren ve öğrencinin kitabı ödünç almasını sağlayan ekrandır;
+// Borrow isteğini backend’e gönderir, 409 çakışma ve diğer hata durumlarını kontrol ederek
+// sonucu kullanıcıya bildirir.
