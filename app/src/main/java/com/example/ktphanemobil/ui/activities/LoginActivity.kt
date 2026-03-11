@@ -25,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
         private const val PREFS_NAME = "UserPrefs"
         private const val MSG_FILL_ALL = "Lütfen tüm alanları doldurun."
         private const val MSG_INVALID = "E-posta veya şifre hatalı."
-        private const val MSG_TIMEOUT = "Sunucuya ulaşılamadı (timeout). Backend açık mı?"
+        private const val MSG_TIMEOUT = "Sunucuya ulaşılamadı. Backend açık mı ya da internete bağlı mı?"
         private const val MSG_CONN_FAIL_PREFIX = "Bağlantı hatası: "
     }
 

@@ -16,7 +16,7 @@
         android:textStyle="bold"
         android:padding="16dp" />
 
-    <!-- Arama -->
+
     <EditText
         android:id="@+id/edtSearch"
         android:layout_width="match_parent"
